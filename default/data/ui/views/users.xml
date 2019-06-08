@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>User Overview</label>
+  <row>
+    <html>
+      <h1>User Overview</h1>
+    </html>
+  </row>
+  <row>
+    <table>
+      <searchName>user data</searchName>
+      <title>User Data</title>
+      <option name="count">10</option>
+      <option name="showPager">true</option>
+    </table>
+  </row>
+  <row>
+    <chart>
+      <searchName>user actions</searchName>
+      <title>User Actions</title>
+      <option name="charting.chart">bar</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>user logins</searchName>
+      <title>User Logins (last 90 days)</title>
+      <option name="charting.chart">area</option>
+    </chart>
+  </row>
+</dashboard>

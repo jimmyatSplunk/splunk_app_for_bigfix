@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>Hardware Overview</label>
+  <row>
+    <html>
+      <h1>Hardware Overview</h1>
+      <p>
+        For filterable details, head over to the <a href="inventory_details">detailed inventory view</a>.
+      </p>
+   </html>
+  </row>
+  <row>
+    <chart>
+      <searchName>hwinv computer type</searchName>
+      <title>Top 100 Computer Types</title>
+      <option name="charting.chart">column</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>hwinv cpu brand</searchName>
+      <title>Top 10 CPU Brands</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+    <chart>
+      <searchName>hwinv cpu count</searchName>
+      <title>CPU Count</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>hwinv drive type</searchName>
+      <title>Top 10 Disk Drive Types</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+    <chart>
+      <searchName>hwinv drive count</searchName>
+      <title>Disk Drive Count</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+  </row>
+</dashboard>

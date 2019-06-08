@@ -1,0 +1,150 @@
+<setup>
+  <block title="BigFix App Setup"></block>
+
+  <block title="Web Reports Configuration" endpoint="bigfix/bigfixapp/" entity="bigfix_config">
+    <input field="url">
+      <label>Web Reports URL (e.g. http://bigfixsvr:80)</label>
+      <type>text</type>
+      <validation>^http[s]?:\/\/[^:\/\s]+(:\d+)?\/?$</validation>
+    </input>
+  </block>
+
+  <block title="" endpoint="bigfix/bigfixapp/" entity="bigfix_config">
+    <input field="user">
+      <label>Web Reports username</label>
+      <type>text</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="bigfix/bigfixapp/" entity="bigfix_config">
+    <input field="password">
+      <label>Web Reports password</label>
+      <type>text</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="bigfix/bigfixapp/" entity="bigfix_config">
+    <input field="soap_timeout">
+      <label>Web Reports SOAP timeout (in seconds, default=90)</label>
+      <type>text</type>
+    </input>
+  </block>
+
+  <block title="Configure Scripted Inputs">
+    <text>
+      The included dashboards rely on data from the following scripted
+      inputs.  Please consult your BigFix representative when determining
+      the proper polling interval for each input.
+    </text>
+
+    <text>
+      Utilizing crontab formats is a safer and more controlled method to
+      initiate these inputs, however you may not have data immediately after
+      configuring this app.
+    </text>
+  </block>
+
+  <block title="Actions" endpoint="data/inputs/script" entity=".%252Fbin%252Factions.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="Clients" endpoint="data/inputs/script" entity=".%252Fbin%252Fclients.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="Fixlet Results" endpoint="data/inputs/script" entity=".%252Fbin%252Ffixlet_results.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="Infrastructure Data" endpoint="data/inputs/script" entity=".%252Fbin%252Finfrastructure.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="Hardware Inventory Properties" endpoint="data/inputs/script" entity=".%252Fbin%252Fhardware.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="Software Inventory Properties" endpoint="data/inputs/script" entity=".%252Fbin%252Fsoftware.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="Summary Compliance Statistics" endpoint="data/inputs/script" entity=".%252Fbin%252Fsummary_compliance.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="Users" endpoint="data/inputs/script" entity=".%252Fbin%252Fusers.py">
+    <input field="interval">
+      <label>Polling Interval (crontab format)</label>
+      <type>text</type>
+    </input>
+    <input field="enabled">
+      <label>Enable</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <!--
+      Can't seem to get this to work properly in v6
+  //-->
+  <!--
+  <block title="Configure Log Monitors (optional)" endpoint="data/inputs/monitor">
+    <text>
+      Select the appropriate logfiles for this system.  I've been unable to specify $PROGRAMFILES(x86) or anything similar.
+      You'll need to modify the inputs.conf by hand after enabling these files if you're using a 64-bit system.
+    </text>
+    <input entity="*" mode="iter" field="enabled">
+      <label>Enable: $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+  //-->
+</setup>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>Infrastructure Overview</label>
+  <row>
+    <html>
+      <h1>Infrastructure Overview</h1>
+    </html>
+  </row>
+  <row>
+    <chart>
+      <searchName>server versions</searchName>
+      <title>Server Version Overview</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+    <chart>
+      <searchName>actionsite versions</searchName>
+      <title>Actionsite Version Overview</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>actionsite versions over time</searchName>
+      <title>Actionsite Version</title>
+      <option name="charting.chart">line</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>actionsite size over time</searchName>
+      <title>Actionsite Size (KB)</title>
+      <option name="charting.chart">line</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>filldb logfile size over time</searchName>
+      <title>FillDB Logfile Size (MB)</title>
+      <option name="charting.chart">line</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>bufferdir file count over time</searchName>
+      <title>BufferDir File Count</title>
+      <option name="charting.chart">line</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>registration list size over time</searchName>
+      <title>Registration List Size (KB)</title>
+      <option name="charting.chart">line</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+    </chart>
+  </row>
+</dashboard>

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>Relay Overview</label>
+  <row>
+    <html>
+      <h1>Relay Overview</h1>
+    </html>
+  </row>
+  <row>
+    <table>
+      <searchName>relay orphans</searchName>
+      <title>Offline Relays (last report 30-90 days ago)</title>
+      <option name="count">10</option>
+      <option name="showPager">true</option>
+    </table>
+  </row>
+  <row>
+    <chart>
+      <searchName>relay versions</searchName>
+      <title>Relay Version Overview</title>
+      <option name="charting.chart">bar</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>relay server distribution</searchName>
+      <title>Relay Server Distribution</title>
+      <option name="charting.chart">column</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>relay free space over time</searchName>
+      <title>Relay Free Space</title>
+      <option name="charting.chart">line</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+    </chart>
+  </row>
+</dashboard>

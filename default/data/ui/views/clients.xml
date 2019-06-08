@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>Client Overview</label>
+  <row>
+    <html>
+      <h1>Client Overview</h1>
+    </html>
+  </row>
+  <row>
+    <table>
+      <searchName>client orphans</searchName>
+      <title>Offline Computers (last report 30-90 days ago)</title>
+      <option name="count">10</option>
+      <option name="showPager">true</option>
+    </table>
+  </row>
+  <row>
+    <chart>
+      <searchName>client logins</searchName>
+      <title>Latest Client Logins</title>
+      <option name="charting.chart">column</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>client versions</searchName>
+      <title>Client Version Overview</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+    <chart>
+      <searchName>client relay distance</searchName>
+      <title>Client Relay Distance</title>
+      <option name="charting.chart">column</option>
+    </chart>
+    <chart>
+      <searchName>client relay selection</searchName>
+      <title>Client Relay Selection</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>client relay distribution</searchName>
+      <title>Client Relay Distribution</title>
+      <option name="charting.chart">column</option>
+    </chart>
+  </row>
+</dashboard>

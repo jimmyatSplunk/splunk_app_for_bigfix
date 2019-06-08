@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form>
+  <label>Inventory Details</label>
+  <fieldset>
+    <input type="text" token="filter">
+      <label>Filter:</label>
+      <default>*</default>
+      <seed>host=sys1</seed>
+    </input>
+  </fieldset>
+  <row>
+    <html>
+      <h1>Inventory Details</h1>
+      <p>
+        Client filtering can be performed using fields from sourcetype:(software|hardware)_inventory or sourcetype:clients.<br/><br/>
+
+        For example:
+        <ul>
+          <li>host=sys*</li>
+          <li>group=Win7</li>
+          <li>host=* os=Win*</li>
+          <li>host=* bigfix_server=bescore</li>
+        </ul>
+      </p>
+    </html>
+  </row>
+  <row>
+    <table>
+      <title>Overview</title>
+      <searchTemplate>savedsearch=bigfix sourcetype=clients | search $filter$ | dedup host, bigfix_server | table host, client_id, src_ip, dns_name, user_name, os, ad_path, bigfix_server, _time</searchTemplate>
+      <earliestTime>-90d</earliestTime>
+      <option name="count">20</option>
+      <option name="showPager">true</option>
+    </table>
+  </row>
+  <row>
+    <chart>
+      <title>Reports Over Time</title>
+      <searchTemplate>savedsearch=bigfix sourcetype=clients | search $filter$ | timechart count by host</searchTemplate>
+      <earliestTime>-90d</earliestTime>
+      <option name="charting.chart">column</option>
+    </chart>
+  </row>
+  <row>
+    <table>
+      <title>Hardware</title>
+      <searchTemplate>savedsearch=bigfix sourcetype=hardware_inventory | dedup host, property_name, bigfix_server | join host, client_id, bigfix_server [search savedsearch=bigfix sourcetype=clients] | search $filter$ | table host, property_name, property_values | sort host, property_name, bigfix_server</searchTemplate>
+      <earliestTime>-90d</earliestTime>
+      <option name="count">20</option>
+      <option name="showPager">true</option>
+    </table>
+  </row>
+  <row>
+    <table>
+      <title>Software</title>
+      <searchTemplate>savedsearch=bigfix sourcetype=software_inventory NOT "--||" | dedup host, property_name, bigfix_server | join host, client_id, bigfix_server [search savedsearch=bigfix sourcetype=clients] | search $filter$ | table host, property_name, property_values, bigfix_server | sort host, property_name</searchTemplate>
+      <earliestTime>-90d</earliestTime>
+      <option name="count">20</option>
+      <option name="showPager">true</option>
+    </table>
+  </row>
+</form>

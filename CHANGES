@@ -1,0 +1,34 @@
+Version 20110203.0 beta3
+  Changed version scheme
+  Bug fix in creation of cce field from source_id.  Flip cve/cce non_compliance charts to graph percent non_compliant so that 0% compliance actually has a column
+  New screenshot
+  Styling mods
+  Fix typos in cpes
+  Add permissions for fields
+  Get rid of ugly gather status failure results -- do that separately if required
+  Add quoting to some fields in infrastructure
+  Add SOAP timeout config option
+  Removed some quoting in relevance because hosts were showing surrounded by double quotes
+  Added some guards for environments where clients don't have data (waa?)
+  Ignore exceptions, but log them.
+
+Version 12.14.10 beta2
+  (posted 12/14/10)
+  Added cve and source id data to fixlet results
+  Modified SOAP connection layer to use multithreading
+  Modified a few searches which weren't aggregating
+  Modified the config file reader to require web reports config stanzas to start with "bigfix_config"
+  Set group, site, client_admin, property_values, cve, and cce fields to multivalued - cce is extracted from source_id
+  Renamed lookup field from os_cpe to cpe
+  Fixed bug on users.py where login time wasn't set yet because the user hadn't logged in
+  Fixed bug on clients.py where I was using a version 8 only inspector
+  Fixed bug on trailing slash in web reports url
+  Various documentation updates
+
+Version 11.29.10 beta1
+  (posted 11/29/10)
+  This is a complete rewrite of the initial app, which includes scripted inputs to leverage the bigfix SOAP API.
+
+Version 0.1 alpha
+  (posted 10/3/10)
+  This is the first version. It includes some sample data. Expect the app to undergo continuous improvement, with the next update within a couple weeks.

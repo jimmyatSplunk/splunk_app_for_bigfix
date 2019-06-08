@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>Cyberscope Overview</label>
+  <row>
+    <html>
+      <h1>Cyberscope Overview</h1>
+    </html>
+  </row>
+</dashboard>

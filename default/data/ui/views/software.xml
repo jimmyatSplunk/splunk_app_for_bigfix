@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>Software Overview</label>
+  <row>
+    <html>
+      <h1>Software Overview</h1>
+      <p>
+        For filterable details, head over to the <a href="inventory_details">detailed inventory view</a>.
+      </p>
+    </html>
+  </row>
+  <row>
+    <chart>
+      <searchName>swinv os version</searchName>
+      <title>Operating Systems</title>
+      <option name="charting.chart">column</option>
+    </chart>
+  </row>
+  <row>
+    <single>
+      <searchName>swinv svc count</searchName>
+      <title>Number Of Unique Windows Services</title>
+    </single>
+    <single>
+      <searchName>swinv app count</searchName>
+      <title>Number Of Unique Windows Applications</title>
+    </single>
+  </row>
+  <row>
+    <chart>
+      <searchName>swinv top running services</searchName>
+      <title>Top 10 Windows Services (Running)</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+    <chart>
+      <searchName>swinv top installed applications</searchName>
+      <title>Top 10 Windows Applications</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchName>swinv rare running services</searchName>
+      <title>Rare 10 Windows Services (Running)</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+    <chart>
+      <searchName>swinv rare installed applications</searchName>
+      <title>Rare 10 Windows Applications</title>
+      <option name="charting.chart">pie</option>
+    </chart>
+  </row>
+</dashboard>

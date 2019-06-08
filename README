@@ -1,0 +1,48 @@
+Requires 4.1 or greater
+
+The bigfix app provides scripted inputs to pull data from the bigfix SOAP API and provide a usable and interesting replacement for bigfix Web Reports.
+
+Notable benefits include historical reporting, the ability to report across multiple servers, the ability to correlate compliance and inventory data with other IT data, and the ease of creating visualizations that Splunk provides.  Scripted inputs utilize bigifx session relevance language to pull rich data.  Additionally, server, relay, and client logs can be monitored, and the bigfix syslog connector may be utilized to provide real-time fixlet state change notifications per client (available from bigfix).  This application may, but is not required to be, installed directly on the bigfix server(s).
+
+This application was tested in a small lab.  Please consult your bigfix support representative when configuring scripted inputs.  This application was tested in a small lab / Mac OS X splunk instance to BigFix version 8 on Windows 2008.  Neither Splunk nor the author assume any responsibility for impact on your bigfix deployment.  This application is provided "as is" without warranty of any kind.
+
+----
+http://splunkbase.splunk.com/apps/All/4.x/App/app:Splunk+for+BigFix
+
+Splunk for BigFix
+
+Developed by:
+
+Mike Wilson (mwilson at splunk.com)
+
+General
+
+This app utilizes its own "bigfix" index. All searches have been created to reference savedsearch=bigfix which expands simply to index=bigfix.
+
+Prior to use, Web Reports credentials must be configured within Manager.
+
+The BigFix app provides scripted inputs in order to pull information from BigFix Web Reports via the SOAP/HTTP API. The execution schedule of those scripts should be discussed with your BigFix representative in order to ensure minimal impact to other activities within Web Reports. You should not expect data immediately after installation. Data will arrive according to the schedule of each scripted input and it could take hours before the application has the proper data to generate dashboards and controls.
+
+Data may be augmented through ingestion of client logs as well as the use of the BigFix syslog connector in order to provide fixlet change data in real-time. Please contact your BigFix representative for more information about the syslog connector.
+
+Connections
+
+Internal:
+Scripted inputs require connectivity to the BigFix server via SOAP over HTTP on the port defined within BigFix.
+
+The real-time syslog feed requires the BigFix syslog connector (provided separately by BigFix) as well as the administrator to configure Splunk to listen for syslog traffic (e.g. tcp:514).
+
+External:
+None
+
+Credits
+
+BigFix and the BigFix logo are trademarks of IBM Corporation.
+
+Thanks to Dan Goldburt and Monzy Merza's work on the previous versions
+
+This app contains some libraries that were written by others, and are being redistributed under their respective open source licenses. We wish to thank the contributors to these projects:
+
+Suds
+The Suds python library is utilized for SOAP communication to BigFix. Suds is provided under the GNU LESSER GENERAL PUBLIC LICENSE:
+https://fedorahosted.org/suds/browser/trunk/LICENSE
