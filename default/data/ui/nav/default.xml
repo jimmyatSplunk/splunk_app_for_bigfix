@@ -1,33 +1,29 @@
 <nav search_view="search" color="#92a6b3">
   <view name="overview" default='true' />
-	<collection label="Environment">
+  <collection label="Environment">
     <view name="users"/>
     <view name="clients"/>
     <view name="relays"/>
     <view name="infrastructure"/>
   </collection>
-	<collection label="Compliance">
-		<view name="compliance"/>
-		<view name="compliance_details"/>
-		<view name="syslog"/>
-    <divider/>
-    <view source="unclassified" match="compliance"/>
-	</collection>
   <collection label="Actions">
     <view name="actions"/>
-		<view name="action_details"/>
+    <view name="action_details"/>
     <divider/>
     <view source="unclassified" match="action "/>
   </collection>
-	<collection label="Inventory">
-		<view name="hardware"/>
-		<view name="software"/>
-		<view name="inventory_details"/>
+  <collection label="Inventory">
+    <view name="hardware"/>
+    <view name="software"/>
+    <view name="inventory_details"/>
     <divider/>
     <view source="unclassified" match="inventory"/>
-	</collection>
-	<view name="about"/>
+  </collection>
+    <collection label="Search">
+  <view name="search" />
+  <view name="datasets" />
   <view name="reports" />
   <view name="alerts" />
   <view name="dashboards" />
+  </collection>
 </nav>

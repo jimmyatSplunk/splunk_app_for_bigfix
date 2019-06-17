@@ -1,47 +1,168 @@
-<?xml version='1.0' encoding='utf-8'?>
-<dashboard>
+<?xml version="1.0" encoding="utf-8"?><dashboard>
   <label>Action Overview</label>
+  <search id='actionBase'>
+    <query>`bigfix_index` sourcetype=bigfix:actions | fields stopper time_stopped action_id nt_host action_name start_time end_time issuer status | dedup action_id, nt_host</query>
+    <earliest>-30d</earliest>
+    <latest>now</latest>
+  </search>
   <row>
-    <html>
-      <h1>Action Overview</h1>
-      <p>
-        For filterable details, head over to the <a href="action_details">detailed action view</a>.
-      </p>
-    </html>
-  </row>
-  <row>
-    <table>
-      <searchName>action open</searchName>
+    <panel>
       <title>Open Actions</title>
-      <option name="count">10</option>
-      <option name="showPager">true</option>
-    </table>
+      <table>
+        <search base='actionBase'>
+          <query>| search NOT stopper=* NOT time_stopped=* | convert timeformat="%a, %d %b %Y %H:%M:%S" mktime(start_time) as start mktime(end_time) as end | eval is_active=if(start &lt;= now(), if(end &gt; now(), "True", "False"), if(isnull(end_time), "True", "False")) | search is_active=True | top action_name by issuer showperc=f</query>
+        </search>
+        <option name="count">10</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
   </row>
   <row>
-    <chart>
-      <searchName>action results by user</searchName>
+    <panel>
       <title>Action Result Count By User (last 30 days)</title>
-      <option name="charting.chart">pie</option>
-    </chart>
-    <chart>
-      <searchName>action results by status</searchName>
+      <chart>
+        <search base='actionBase'>
+          <query> | chart count by issuer</query>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+    <panel>
       <title>Action Result Count By Status (last 30 days)</title>
-      <option name="charting.chart">pie</option>
-    </chart>
+      <chart>
+        <search base='actionBase'>
+          <query> | chart count by status</query>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
   </row>
   <row>
-    <chart>
-      <searchName>action results by os</searchName>
+    <panel>
       <title>Action Result Count By OS (last 30 days)</title>
-      <option name="charting.chart">column</option>
-    </chart>
+      <chart>
+        <search base='actionBase'>
+          <query> | join nt_host [ search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | dedup nt_host | fields nt_host operating_system ]| chart count by operating_system</query>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
   </row>
   <row>
-    <table>
-      <searchName>action complete</searchName>
+    <panel>
       <title>Completed Actions (last 30 days)</title>
-      <option name="count">10</option>
-      <option name="showPager">true</option>
-    </table>
+      <table>
+        <search base='actionBase'>
+          <query> | convert timeformat="%a, %d %b %Y %H:%M:%S" mktime(start_time) as start mktime(end_time) as end | convert timeformat="%a, %d %b %Y %H:%M:%S %z" mktime(time_stopped) as stop | eval ended=if(end &gt; relative_time(now(), "-7d"), "Ended", if(stop &gt; relative_time(now(), "-7d"), "Stopped", "None")) | search ended!=None | top action_name by ended showperc=f</query>
+        </search>
+        <option name="count">10</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
   </row>
 </dashboard>
