@@ -1,53 +1,61 @@
-<?xml version='1.0' encoding='utf-8'?>
 <form>
   <label>Actions Details</label>
-  <fieldset>
-    <input type="text" token="filter">
-      <label>Filter:</label>
-      <default>*</default>
-      <seed>host=sys1</seed>
+  <fieldset submitButton="true" autoRun="false">
+    <input type="dropdown" token="host" searchWhenChanged="true">
+      <label>Host</label>
+      <fieldForLabel>nt_host</fieldForLabel>
+      <fieldForValue>nt_host</fieldForValue>
+      <search>
+        <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | fields nt_host ip dns user operating system last_report_time | dedup nt_host</query>
+        <earliest>-60m@m</earliest>
+        <latest>now</latest>
+      </search>
     </input>
   </fieldset>
   <row>
-    <html>
-      <h1>Action Details</h1>
-      <p>
-        Client filtering can be performed using fields from sourcetype:actions or sourcetype:clients.<br/><br/>
-
-        For example:
-        <ul>
-          <li>host=sys*</li>
-          <li>group=Win7</li>
-          <li>host=* os=Win*</li>
-          <li>host=* bigfix_server=bescore</li>
-        </ul>
-      </p>
-    </html>
+    <panel>
+      <title>Host Details</title>
+      <table>
+        <search>
+          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) nt_host=$host$ | dedup nt_host | table nt_host, ip, dns, user, operating_system, last_report_time</query>
+          <earliest>-90d</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">20</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
   </row>
   <row>
-    <table>
-      <title>Overview</title>
-      <searchTemplate>savedsearch=bigfix sourcetype=clients | search $filter$ | dedup host, bigfix_server | table host, client_id, src_ip, dns_name, user_name, os, ad_path, bigfix_server, _time</searchTemplate>
-      <earliestTime>-90d</earliestTime>
-      <option name="count">20</option>
-      <option name="showPager">true</option>
-    </table>
-  </row>
-  <row>
-    <chart>
+    <panel>
       <title>Reports Over Time</title>
-      <searchTemplate>savedsearch=bigfix sourcetype=clients | search $filter$ | timechart count by host</searchTemplate>
-      <earliestTime>-90d</earliestTime>
-      <option name="charting.chart">column</option>
-    </chart>
+      <chart>
+        <search>
+          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) nt_host=$host$ | `time_conversion(last_report_time)` | timechart dc(last_report_time) by nt_host</query>
+          <earliest>-90d</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
   </row>
   <row>
-    <table>
+    <panel>
       <title>Open Actions</title>
-      <searchTemplate>savedsearch=bigfix sourcetype=actions NOT stopper=* NOT time_stopped=* | dedup action_id, host, bigfix_server | join host, client_id, bigfix_server [search savedsearch=bigfix sourcetype=clients]  | convert timeformat="%a, %d %b %Y %H:%M:%S" mktime(start_time) as start mktime(end_time) as end | eval is_active=if(start &lt;= now(), if(end &gt; now(), "True", "False"), if(isnull(end_time), "True", "False")) | search is_active=True $filter$ | top action_id, action_name, status, reapply, restart_required, bigfix_server limit=0 showperc=f | sort -count, action_name</searchTemplate>
-      <earliestTime>-90d</earliestTime>
-      <option name="count">20</option>
-      <option name="showPager">true</option>
-    </table>
+      <table>
+        <search>
+          <query>`bigfix_index` sourcetype=bigfix:actions NOT stopper=* NOT time_stopped=* nt_host=$host$ | dedup action_id, nt_host | join nt_host [search savedsearch=bigfix (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | dedup nt_host ]  | convert timeformat="%a, %d %b %Y %H:%M:%S" mktime(start_time) as start mktime(end_time) as end | eval is_active=if(start &lt;= now(), if(end &gt; now(), "True", "False"), if(isnull(end_time), "True", "False")) | search is_active=True | top nt_host, action_id, action_name, status, reapply, restart_required limit=0 | sort -count, action_name</query>
+          <earliest>-90d</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">20</option>
+        <drilldown>
+          <link target="_blank">search?q=%60bigfix_index%60%20sourcetype=bigfix:client:log%20host=%22$host$%22%20action_id=%22$row.action_id$%22%20%7C%20reverse&amp;earliest=0&amp;latest=</link>
+        </drilldown>
+      </table>
+    </panel>
   </row>
 </form>

@@ -1,62 +1,82 @@
-<?xml version='1.0' encoding='utf-8'?>
-<form>
+<?xml version="1.0" encoding="utf-8"?><form>
   <label>Inventory Details</label>
   <fieldset>
     <input type="text" token="filter">
       <label>Filter:</label>
       <default>*</default>
-      <seed>host=sys1</seed>
     </input>
   </fieldset>
   <row>
-    <html>
+    <panel>
+      <html>
       <h1>Inventory Details</h1>
       <p>
-        Client filtering can be performed using fields from sourcetype:(software|hardware)_inventory or sourcetype:clients.<br/><br/>
+        Client filtering can be performed using fields from sourcetype:(software|hardware)_inventory or sourcetype:bigfix:asset:list.<br/>
+        <br/>
 
         For example:
         <ul>
-          <li>host=sys*</li>
-          <li>group=Win7</li>
-          <li>host=* os=Win*</li>
-          <li>host=* bigfix_server=bescore</li>
+          <li>nt_host=sys*</li>
+          <li>nt_host=* operating_system=Win*</li>
+          <li>nt_host=*</li>
         </ul>
       </p>
     </html>
+    </panel>
   </row>
   <row>
-    <table>
+    <panel>
       <title>Overview</title>
-      <searchTemplate>savedsearch=bigfix sourcetype=clients | search $filter$ | dedup host, bigfix_server | table host, client_id, src_ip, dns_name, user_name, os, ad_path, bigfix_server, _time</searchTemplate>
-      <earliestTime>-90d</earliestTime>
-      <option name="count">20</option>
-      <option name="showPager">true</option>
-    </table>
+      <table>
+        <search>
+          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | search $filter$ | dedup nt_host  | table nt_host, ip, dns, user, operating_system, last_report_time</query>
+          <earliest>-24h</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">20</option>
+      </table>
+    </panel>
   </row>
   <row>
-    <chart>
+    <panel>
       <title>Reports Over Time</title>
-      <searchTemplate>savedsearch=bigfix sourcetype=clients | search $filter$ | timechart count by host</searchTemplate>
-      <earliestTime>-90d</earliestTime>
-      <option name="charting.chart">column</option>
-    </chart>
+      <chart>
+        <search>
+          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)  | `time_conversion(last_report_time)` | search $filter$ | timechart dc(last_report_time) by nt_host</query>
+          <earliest>-90d</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
   </row>
   <row>
-    <table>
+    <panel>
       <title>Hardware</title>
-      <searchTemplate>savedsearch=bigfix sourcetype=hardware_inventory | dedup host, property_name, bigfix_server | join host, client_id, bigfix_server [search savedsearch=bigfix sourcetype=clients] | search $filter$ | table host, property_name, property_values | sort host, property_name, bigfix_server</searchTemplate>
-      <earliestTime>-90d</earliestTime>
-      <option name="count">20</option>
-      <option name="showPager">true</option>
-    </table>
+      <table>
+        <search>
+          <query>`bigfix_index` sourcetype=bigfix:analysis | dedup nt_host, property_name, property_value  | join nt_host  [search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)] | search $filter$ | stats values(property_value) as property_value by nt_host property_name | sort nt_host, property_name</query>
+          <earliest>-24h</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">20</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
   </row>
   <row>
-    <table>
+    <panel>
       <title>Software</title>
-      <searchTemplate>savedsearch=bigfix sourcetype=software_inventory NOT "--||" | dedup host, property_name, bigfix_server | join host, client_id, bigfix_server [search savedsearch=bigfix sourcetype=clients] | search $filter$ | table host, property_name, property_values, bigfix_server | sort host, property_name</searchTemplate>
-      <earliestTime>-90d</earliestTime>
-      <option name="count">20</option>
-      <option name="showPager">true</option>
-    </table>
+      <table>
+        <search>
+          <query>`bigfix_index` sourcetype=software_inventory NOT "--||" | dedup nt_host, property_name, property_value  | join host, client_id,  [search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)] | search $filter$ | stats values(property_value) as property_value by nt_host property_name | sort nt_host, property_name</query>
+          <earliest>-24h</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">20</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
   </row>
 </form>
