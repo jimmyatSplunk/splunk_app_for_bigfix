@@ -3,27 +3,9 @@
   <fieldset>
     <input type="text" token="filter">
       <label>Filter:</label>
-      <default>*</default>
+      <default>nt_host=*</default>
     </input>
   </fieldset>
-  <row>
-    <panel>
-      <html>
-      <h1>Inventory Details</h1>
-      <p>
-        Client filtering can be performed using fields from sourcetype:(software|hardware)_inventory or sourcetype:bigfix:asset:list.<br/>
-        <br/>
-
-        For example:
-        <ul>
-          <li>nt_host=sys*</li>
-          <li>nt_host=* operating_system=Win*</li>
-          <li>nt_host=*</li>
-        </ul>
-      </p>
-    </html>
-    </panel>
-  </row>
   <row>
     <panel>
       <title>Overview</title>
@@ -42,11 +24,12 @@
       <title>Reports Over Time</title>
       <chart>
         <search>
-          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)  | `time_conversion(last_report_time)` | search $filter$ | timechart dc(last_report_time) by nt_host</query>
+          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)  | `time_conversion(last_report_time)` | search $filter$ | timechart dc(last_report_time) by nt_host limit=100</query>
           <earliest>-90d</earliest>
           <latest></latest>
         </search>
-        <option name="charting.chart">column</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">all</option>
         <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
@@ -56,7 +39,7 @@
       <title>Hardware</title>
       <table>
         <search>
-          <query>`bigfix_index` sourcetype=bigfix:analysis | dedup nt_host, property_name, property_value  | join nt_host  [search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)] | search $filter$ | stats values(property_value) as property_value by nt_host property_name | sort nt_host, property_name</query>
+          <query>`bigfix_index` sourcetype=bigfix:analysis analysis_name="Hardware Information*" | dedup nt_host, property_name, property_value  | join nt_host  [search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)] | search $filter$ property_value!="=======" | stats values(property_value) as property_value by nt_host property_name | sort nt_host, property_name</query>
           <earliest>-24h</earliest>
           <latest></latest>
         </search>
@@ -70,7 +53,7 @@
       <title>Software</title>
       <table>
         <search>
-          <query>`bigfix_index` sourcetype=software_inventory NOT "--||" | dedup nt_host, property_name, property_value  | join host, client_id,  [search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)] | search $filter$ | stats values(property_value) as property_value by nt_host property_name | sort nt_host, property_name</query>
+          <query>`bigfix_index` sourcetype=bigfix:analysis analysis_name="Application Information*" (property_name="Installed Applications*" OR property_name="Packages Installed*") | dedup nt_host, property_name, property_value | join nt_host  [search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients)] | search $filter$ | stats values(property_value) as property_value by nt_host property_name | sort nt_host, property_name</query>
           <earliest>-24h</earliest>
           <latest></latest>
         </search>

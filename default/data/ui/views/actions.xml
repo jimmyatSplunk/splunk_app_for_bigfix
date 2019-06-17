@@ -110,7 +110,7 @@
       <title>Action Result Count By OS (last 30 days)</title>
       <chart>
         <search base='actionBase'>
-          <query> | join nt_host [ search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | dedup nt_host | fields nt_host operating_system ]| chart count by operating_system</query>
+          <query> | join nt_host [ search `bigfix_index` (sourcetype=bigfix:asset:list OR bigfix:clients) | dedup nt_host | fields nt_host operating_system ]| chart count by operating_system</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>

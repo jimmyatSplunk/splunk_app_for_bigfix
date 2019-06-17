@@ -6,7 +6,7 @@
       <single>
         <title>Server Version Overview</title>
         <search>
-          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) server_version=* | dedup nt_host | chart count by server_version</query>
+          <query>`bigfix_index` (sourcetype=bigfix:asset:list OR bigfix:clients) server_version=* | dedup nt_host | chart count by server_version</query>
           <earliest>-7d</earliest>
           <latest>now</latest>
           <sampleRatio>1</sampleRatio>

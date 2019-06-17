@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><dashboard>
   <label>Client Overview</label>
   <search id='assetBase'>
-    <query>`bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | fields nt_host ip dns user operating_system client_version server_version relay_version last_report_time relay_server relay_distance relay_selection_method | eval old=relative_time(now(), "-30d") | eval last_report_epoch=strptime(last_report_time,"%a, %d %b %Y %H:%M:%S %z")</query>
+    <query>`bigfix_index` (sourcetype=clients OR sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | fields nt_host ip dns user operating_system client_version server_version relay_version last_report_time relay_server relay_distance relay_selection_method | eval old=relative_time(now(), "-30d") | eval last_report_epoch=strptime(last_report_time,"%a, %d %b %Y %H:%M:%S %z")</query>
     <earliest>-90d</earliest>
     <latest>now</latest>
     <sampleRatio>1</sampleRatio>

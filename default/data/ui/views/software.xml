@@ -56,10 +56,11 @@
   </row>
   <row>
     <panel>
+      <title>Number Of Unique Services</title>
       <single>
-        <title>Number Of Unique Windows Services</title>
+        <title>Number Of Unique Services</title>
         <search>
-          <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Services - Windows" | dedup nt_host, property_value | makemv delim="," property_value | eval s=split(property_value, " | ") | eval svcs=mvfilter(s != "Running" AND s != "Stopped") | stats dc(svcs)</query>
+          <query>`bigfix_index` sourcetype=bigfix:analysis analysis_name="Application Information*" property_name="*Services*" | dedup nt_host, property_value | makemv delim="," property_value | eval s=split(property_value, " | ") | eval svcs=mvfilter(s != "Running" AND s != "Stopped") | stats dc(svcs)</query>
           <earliest>-90d</earliest>
           <latest>now</latest>
           <sampleRatio>1</sampleRatio>
@@ -85,10 +86,10 @@
       </single>
     </panel>
     <panel>
+      <title>Number Of Unique Applications</title>
       <single>
-        <title>Number Of Unique Windows Applications</title>
         <search>
-          <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Installed Applications - Windows" NOT "--||" | dedup nt_host, property_value | makemv delim="," property_value | stats dc(property_value)</query>
+          <query>`bigfix_index` sourcetype=bigfix:analysis analysis_name="Application Information*" (property_name="Packages Installed*" OR property_name="Installed Applications*") | dedup nt_host, property_value | makemv delim="," property_value | stats dc(property_value)</query>
           <earliest>-90d</earliest>
           <latest>now</latest>
           <sampleRatio>1</sampleRatio>
@@ -116,8 +117,8 @@
   </row>
   <row>
     <panel>
+      <title>Top 10 Windows Services (Running)</title>
       <chart>
-        <title>Top 10 Windows Services (Running)</title>
         <search>
           <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Services - Windows" | dedup nt_host, property_value | makemv delim="," property_value | eval svcs=mvfilter(property_value LIKE "%Running") | eval s=split(svcs, " | ") | eval running_services=mvfilter(s != "Running") | top running_services limit=10 showperc=f</query>
           <earliest>-90d</earliest>
@@ -159,8 +160,8 @@
       </chart>
     </panel>
     <panel>
+      <title>Top 10 Windows Applications</title>
       <chart>
-        <title>Top 10 Windows Applications</title>
         <search>
           <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Installed Applications - Windows" NOT "--||" | dedup nt_host, property_value | makemv delim="," property_value | rename property_value as installed_applications | top installed_applications limit=10 showperc=f</query>
           <earliest>-90d</earliest>
@@ -204,8 +205,8 @@
   </row>
   <row>
     <panel>
+      <title>Rare 10 Windows Services (Running)</title>
       <chart>
-        <title>Rare 10 Windows Services (Running)</title>
         <search>
           <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Services - Windows" | dedup nt_host, property_value | makemv delim="," property_value | eval svcs=mvfilter(property_value LIKE "%Running") | eval s=split(svcs, " | ") | eval running_services=mvfilter(s != "Running") | rare running_services limit=10 showperc=f</query>
           <earliest>-90d</earliest>
@@ -247,8 +248,8 @@
       </chart>
     </panel>
     <panel>
+      <title>Rare 10 Windows Applications</title>
       <chart>
-        <title>Rare 10 Windows Applications</title>
         <search>
           <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Installed Applications - Windows" NOT "--||" | dedup nt_host, property_value | makemv delim="," property_value | rename property_value as installed_applications | rare installed_applications limit=10 showperc=f</query>
           <earliest>-90d</earliest>

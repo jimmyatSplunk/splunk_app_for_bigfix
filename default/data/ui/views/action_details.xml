@@ -47,7 +47,7 @@
       <title>Open Actions</title>
       <table>
         <search>
-          <query>`bigfix_index` sourcetype=bigfix:actions NOT stopper=* NOT time_stopped=* nt_host=$host$ | dedup action_id, nt_host | join nt_host [search savedsearch=bigfix (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | dedup nt_host ]  | convert timeformat="%a, %d %b %Y %H:%M:%S" mktime(start_time) as start mktime(end_time) as end | eval is_active=if(start &lt;= now(), if(end &gt; now(), "True", "False"), if(isnull(end_time), "True", "False")) | search is_active=True | top nt_host, action_id, action_name, status, reapply, restart_required limit=0 | sort -count, action_name</query>
+          <query>`bigfix_index` sourcetype=bigfix:actions NOT stopper=* NOT time_stopped=* nt_host=$host$ | dedup action_id, nt_host | join nt_host [search `bigfix_index` (sourcetype=bigfix:asset:list OR sourcetype=bigfix:clients) | dedup nt_host ]  | convert timeformat="%a, %d %b %Y %H:%M:%S" mktime(start_time) as start mktime(end_time) as end | eval is_active=if(start &lt;= now(), if(end &gt; now(), "True", "False"), if(isnull(end_time), "True", "False")) | search is_active=True | top nt_host, action_id, action_name, status, reapply, restart_required limit=0 showperc=f | sort -count, action_name</query>
           <earliest>-90d</earliest>
           <latest></latest>
         </search>

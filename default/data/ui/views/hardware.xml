@@ -15,7 +15,7 @@
       <chart>
         <title>Top 100 Computer Types</title>
         <search>
-          <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Computer Manufacturer - Windows" | dedup nt_host | rename property_value as computer_manufacturer | join type=outer nt_host [search `bigfix_index` sourcetype=bigfix:analysis property_name="Computer Model - Windows" | rename property_value as computer_model] | strcat computer_manufacturer " " computer_model computer_type | top computer_type limit=100 showperc=f</query>
+          <query>`bigfix_index` sourcetype=bigfix:analysis property_name="Computer Manufacturer - Windows" | dedup nt_host | rename property_value as computer_manufacturer | join type=outer nt_host [search `bigfix_index` sourcetype=bigfix:analysis property_name="Computer Model - Windows" | rename property_value as computer_model] | strcat computer_manufacturer " " computer_model computer_type | top computer_type limit=100</query>
           <earliest>-90d</earliest>
           <latest>now</latest>
           <sampleRatio>1</sampleRatio>
