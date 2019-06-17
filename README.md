@@ -17,3 +17,48 @@ Numerous changes has been made to the navigation and searches of the app.
 
 # Installation
 It is recommended that the previous version of the BigFix app be removed from the search head and it's ingestion method should be migrated to used the BigFix TA
+
+# Inputs Required per Dashboard
+The following inputs should be configured with the BigFix TA for the corresponding dashboard:
+1. User Overview
+- BigFix Users
+2. Client Overview
+- BigFix Clients
+3. Relay Overview
+- BigFix Clients
+- BigFix Infrastructure
+4. Infrastructure Overview
+- BigFix Clients
+- BigFix Infrastructure
+5. Actions Overview
+- BigFix Actions
+- BigFix Clients
+6. Actions Details
+- BigFix Actions
+- BigFix Clients
+- BigFix client logs (for drilldown)
+7. Hardware Overview
+- BigFix Analysis (Hardware Information)
+- BigFix Analysis (Hardware Information (Windows))
+8. Software Overview
+- BigFix Clients
+- BigFix Analysis (Application Information (Windows))
+9. Inventory Details
+- BigFix Clients
+- BigFix Analysis (Hardware Information)
+- BigFix Analysis (Hardware Information (Windows))
+- BigFix Analysis (Hardware Information (Linux))
+
+# Additional Analysis
+The dashboards included in this app are configured for specific analysis that are built by IBM and deployed with different sites in BigFix. Work with your BigFix administrator to ensure the following analysis are enabled and the account querying for data has, at least, read access to the sites
+
+Site: BES Inventory and License
+- BigFix Analysis (Hardware Information)
+- BigFix Analysis (Hardware Information (Windows))
+- BigFix Analysis (Hardware Information (Linux))
+
+Site: BES Support
+- BES Component Versions
+- BES Health Checks Analysis
+- BES Relay Cache
+- BES Relay Cache Information
