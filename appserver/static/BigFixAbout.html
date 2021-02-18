@@ -1,0 +1,62 @@
+<div style="overflow:hidden; margin: 5px; min-width: 850px; min-height: 500px">
+  <div style="float: left;">
+    <h1>Splunk for BigFix Enterprise Management</h1> 
+    <p>
+      Version: 6.0.1<br/><br/>
+      Developed by:<br/><br/>
+      Mike Wilson [<a href="mailto:mwilson@splunk.com">mwilson@splunk.com</a>]
+    </p>
+  </div>
+
+  <br style="clear:both;" />
+  <br style="clear:both;" />
+
+  <div style="float: left;">
+    <h1>General</h1>
+    <p>
+    This app utilizes its own "bigfix" index.  All searches have been created to reference savedsearch=bigfix which expands simply to index=bigfix
+    </p>
+    <p>
+    Prior to use, Web Reports credentials must be configured within Manager.
+    </p>
+    The BigFix app provides scripted inputs in order to pull information from BigFix Web Reports via the SOAP/HTTP API. The execution schedule of those scripts should be discussed with your BigFix representative in order to ensure minimal impact to other activities within Web Reports. You should not expect data immediately after installation. Data will arrive according to the schedule of each scripted input and it could take hours before the application has the proper data to generate dashboards and controls.
+    <p>
+    Data may be augmented through ingestion of client logs as well as the use of the BigFix syslog connector in order to provide fixlet change data in real-time.  Please contact your BigFix representative for more information about the syslog connector.
+    </p>
+  </div>
+
+  <br style="clear:both;" />
+  <br style="clear:both;" />
+
+  <div style="float: left;">
+    <h1>Connections</h1>
+    <p>
+      <strong>Internal: </strong><br/>
+      Scripted inputs and dynamic lookups require connectivity to the BigFix server via SOAP over HTTP on the port defined within BigFix.<br/><br/>
+
+
+      The real-time syslog feed requires the BigFix syslog connector (provided separately by BigFix) as well as the administrator to configure Splunk to listen for syslog traffic (e.g. tcp:514).  This app will redirect syslog entries containing the term BigFixArcsightIntegrator to the <strong>"bigfix"</strong> index.
+    </p>
+    <p>
+      <strong>External: </strong><br/>
+      None
+    </p>
+  </div>
+
+  <br style="clear:both;" />
+  <br style="clear:both;" />
+
+  <div style="float: left;">
+    <h1>Credits</h1>
+    <p>
+      BigFix and the BigFix logo are trademarks of IBM Corporation.
+    </p>
+    <p>
+      This app contains libraries that were written by others, and are being redistributed under their respective open source licenses.<br/>
+      We wish to thank the contributors to these projects:<br/><br/>
+      <b>Suds</b><br/>
+      The Suds python library is utilized for SOAP communication to BigFix.  Suds is provided under the GNU LESSER GENERAL PUBLIC LICENSE:
+      <a href="https://fedorahosted.org/suds/browser/trunk/LICENSE">https://fedorahosted.org/suds/browser/trunk/LICENSE</a>
+    </p>
+  </div>
+</div>
