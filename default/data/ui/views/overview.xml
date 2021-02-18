@@ -165,7 +165,7 @@
 
 	<!-- List of hosts -->
 	<module name="HiddenSearch" layoutPanel="panel_row4_col1_grp3" autoRun="true">
-		<param name="search">| metadata `bigfix_index` type=hosts</param>
+		<param name="search">`bigfix_index` sourcetype=bigfix:clients | stats count latest(_time) as lastTime by nt_host</param>
 		<param name="maxCount">500000</param>
 		<module name="SimpleResultsHeader">
 			<param name="entityName">results</param>
@@ -178,11 +178,11 @@
 		<param name="fields">
 			<list>
 				<param name="label">Host</param>
-				<param name="value">host</param>
+				<param name="value">nt_host</param>
 			</list>
 			<list>
 				<param name="label">Total Count</param>
-				<param name="value">totalCount</param>
+				<param name="value">count</param>
 			</list>
 			<list>
 				<param name="label">Last Updated</param>
@@ -195,14 +195,14 @@
 			<param name="maxPages">10</param>
 			<module name="SearchLinkLister">
 				<param name="settingToCreate">list3</param>
-				<param name="search">| metadata `bigfix_index` type=hosts</param>
+				<param name="search">`bigfix_index` sourcetype=bigfix:clients | stats count by nt_host | rename nt_host as host</param>
 				<param name="searchFieldsToDisplay">
 					<list>
 						<param name="label">host</param>
 						<param name="value">host</param>
 					</list>
 					<list>
-						<param name="label">totalCount</param>
+						<param name="label">count</param>
 						<param name="labelFormat">number</param>
 					</list>
 				</param>
