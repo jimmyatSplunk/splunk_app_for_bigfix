@@ -1,5 +1,5 @@
-# Splunk App for BigFix
-This app has been updated from the previous version (6.0.1) to run using the BigFix TA as it's source of data ingestion. The previous versions of this app were responsible for data ingestion using Python scripts querying the SOAP API of BigFix Web Reports. The BigFix TA now uses the REST API of BigFix which is much more efficient.
+# HCL BigFix App for Splunk
+This app has been updated from the previous version (6.0.1) to run using the HCL BigFix Add-on for Splunk as it's source of data ingestion. The previous versions of this app were responsible for data ingestion using Python scripts querying the SOAP API of BigFix Web Reports. The HCL BigFix Add-on for Splunk now uses the REST API of BigFix which is much more efficient.
 
 Big thanks to Mike Wilson for his previous work on the app.
 
@@ -50,7 +50,7 @@ The following inputs should be configured with the BigFix TA for the correspondi
 - BigFix Analysis (Hardware Information (Linux))
 
 # Additional Analysis
-The dashboards included in this app are configured for specific analysis that are built by IBM and deployed with different sites in BigFix. Work with your BigFix administrator to ensure the following analysis are enabled and the account querying for data has, at least, read access to the sites
+The dashboards included in this app are configured for specific analysis that are built by HCL and deployed with different sites in BigFix. Work with your BigFix administrator to ensure the following analysis are enabled and the account querying for data has, at least, read access to the sites
 
 Site: BES Inventory and License
 - BigFix Analysis (Hardware Information)
